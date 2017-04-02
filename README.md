@@ -1,2 +1,2 @@
 tensorflow practice  
-This repository will puts my practice with tensorflow in neural netwok
+This repository will puts my practices with tensorflow in neural netwok
