@@ -113,6 +113,7 @@ class MNIST_CNN:
 		def pca(input_x, k_componet, name_scope, read_eg=False, save_eg=False):
 			'''
 			try to implement pca by myself
+			set read_eg = False to comput PCA, or it will read eigen from files
 			return:
 				- Z : the k priciple compnent of inptut x
 			'''
@@ -182,5 +183,5 @@ class MNIST_CNN:
 
 if __name__ == '__main__':
 	cnn = MNIST_CNN()  # create instance
-	# cnn.training(restore=True)  # if training
+	cnn.training(restore=True)  # if training
 	cnn.testing_data_visulization()  # if data visulization
