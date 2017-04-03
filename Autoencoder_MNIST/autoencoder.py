@@ -20,7 +20,7 @@ class auto_encoder:
 		self.input_layer = self.x_width * self.x_height * self.x_channel
 		self.encoder_1 = 300
 		self.encoder_2 = 100
-		self.encoder_3 = 2
+		self.encoder_3 = 2  # if you want to see the scatter, assign 2 to the value
 		self.decoder_1 = 100
 		self.decoder_2 = 300
 		self.decoder_3 = self.input_layer  # the same as input_layer
