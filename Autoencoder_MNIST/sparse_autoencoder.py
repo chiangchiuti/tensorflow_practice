@@ -81,7 +81,7 @@ class auto_encoder:
 
 	def kl_div(self, rho_head, rho):  # Kullback-Leibler (KL) divergence
 		def kl_log(x):
-			x = tf.clip_by_value(x, 1e-40, 100)  # avoid negtive value
+			x = tf.clip_by_value(x, 1e-40, 100)  # avoid negative value
 			x = tf.log(x + 1e-40)
 			x = tf.clip_by_value(x, 1e-40, 1000)  # avlid inf value
 			return x
