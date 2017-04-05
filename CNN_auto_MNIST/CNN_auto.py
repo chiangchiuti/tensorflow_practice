@@ -121,13 +121,13 @@ class CNN_auto:
 		batch_range = tf.reshape(tf.range(output_shape[0], dtype=tf.int32), shape=batch_shape)
 		b = one_like_mask * batch_range
 		y = argmax // (output_shape[2] * output_shape[3])
-		x = argmax % (output_shape[2] * output_shape[3]) // output_shape[3]  # % and // at the sa,e prcedence
+		x = argmax % (output_shape[2] * output_shape[3]) // output_shape[3]  # % and // at the same prcedence
 		feature_range = tf.range(output_shape[3], dtype=tf.int32)
 		f = one_like_mask * feature_range
 		updates_size = tf.size(updates)
 		indices = tf.transpose(tf.reshape(tf.stack([b, y, x, f]), [4, updates_size]))
 		print('indices shape {}'.format(indices.get_shape()))
-		values = tf.reshape(updates, [updates_size])  # faltturn
+		values = tf.reshape(updates, [updates_size])  # flatten
 		print('value shape {}'.format(values.get_shape()))
 		ret = tf.scatter_nd(indices, values, output_shape)
 		return ret
