@@ -20,7 +20,7 @@ class auto_encoder:
 		self.input_layer = self.x_width * self.x_height * self.x_channel
 		self.encoder_1 = 300
 		self.encoder_2 = 100
-		self.encoder_3 = 2  # if you want to see the scatter, assign 2 to the value
+		self.encoder_3 = 20  # if you want to see the scatter, assign 2 to the value
 		self.decoder_1 = 100
 		self.decoder_2 = 300
 		self.decoder_3 = self.input_layer  # the same as input_layer
@@ -71,17 +71,17 @@ class auto_encoder:
 		only can plot two dimention's x
 		'''
 		def plot_scatter(x, labels, title, txt=False):
-			def normalize(input):
+			def normalize(input_v):
 				'''
 				input should be numpy ndarray
 				'''
-				std = input.std()
-				mean = input.mean()
-				return (input - mean) / std
+				std = input_v.std()
+				mean = input_v.mean()
+				return (input_v - mean) / std
 			if x.shape[-1] != 2:
 				print('the dimention should be two')
 				return
-			x = normalize(x)
+			# x = normalize(x)
 			plt.title(title)
 			ax = plt.subplot()
 			ax.scatter(x[:, 0], x[:, 1], c=labels)
@@ -96,16 +96,16 @@ class auto_encoder:
 					# txts.append(txt)
 				plt.show()
 
-		trainimg = mnist.train.images
+		training = mnist.train.images
 		trainlabel = mnist.train.labels
 		print('trainlabel shape{}'.format(trainlabel.shape))
 		plot_size = 4
 		with tf.Session() as sess:
 			self.saver.restore(sess, "./model.ckpt")
-			origin_img = np.reshape(trainimg, (-1, 28, 28))  # 28*28 pixel
+			origin_img = np.reshape(training, (-1, 28, 28))  # 28*28 pixel
 			origin_label = np.argmax(trainlabel, axis=1)
 			print('origin_label shape{}'.format(origin_label.shape))
-			decode_img = sess.run(self.decoder_layer_outtput, feed_dict={self.x: trainimg})
+			decode_img = sess.run(self.decoder_layer_outtput, feed_dict={self.x: training})
 			decode_img = np.reshape(decode_img, (-1, 28, 28))  # 28*28 pixel
 			for i in range(plot_size):
 				plt.matshow(origin_img[i], cmap=plt.get_cmap('gray'))  # plot matrix as image
@@ -113,7 +113,7 @@ class auto_encoder:
 				plt.show()
 
 			# plot  encode layer ouput 's scatter
-			encode_img = sess.run(self.endcoder_layer_output, feed_dict={self.x: trainimg})
+			encode_img = sess.run(self.endcoder_layer_output, feed_dict={self.x: training})
 			print('encode_img shape{}'.format(encode_img.shape))
 			plot_scatter(encode_img, origin_label, 'encode_layer', txt=True)
 
@@ -137,4 +137,3 @@ if __name__ == '__main__':
 	auto = auto_encoder([28, 28, 1])
 	auto.auto_encoder()  # training
 	auto.plot_decoder_ouput()  # plot training reuslt by restor model
-
